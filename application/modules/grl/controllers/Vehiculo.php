@@ -1,0 +1,106 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+//session_start(); 
+class Vehiculo extends MX_Controller
+{
+    
+    public function __construct()
+    {
+        parent::__construct();
+		$this->load->model('vehiculo_model');
+        $this->load->library('template');   
+		$this->load->library('menu');
+    }
+    
+    public function index()
+    { 
+		if($this->session->userdata('id')):
+     		$session_data = $this->session->userdata();
+     		$data['usuario'] = $session_data['username'];
+	 		$data['iduser'] = $session_data['id'];
+			$data['idperfil'] = $session_data['idperfil'];
+			$data["menu"] = $this->menu->crea_menu($data['idperfil']);
+			$data['css'] = '<link href="'.base_url('assets/css/bootstrap-table.css').'" rel="stylesheet">';
+			$data['js'] = '<script src="'.base_url('assets/js/jquery-table.js').'"></script>';
+			$data['js'] .= '<script src="'.base_url('assets/js/bootstrap-table.js').'"></script>';
+			$data['elementos'] = $this->vehiculo_model->desplega();
+			$this->template->load('template','vehiculo',$data);    
+		else:
+			redirect('login/index', 'refresh');
+		endif;   
+    }
+	
+	public function agregar()
+	{
+		if($this->session->userdata('id')):
+     		$session_data = $this->session->userdata();
+     		$data['usuario'] = $session_data['username'];
+	 		$data['iduser'] = $session_data['id'];
+			$data['idperfil'] = $session_data['idperfil'];
+			$data["menu"] = $this->menu->crea_menu($data['idperfil']);
+			$data['css'] = '';
+			$data['js'] = '';
+			$data["title"] ='VEHICULOS';
+			$data["icon"]='fa-truck';
+			$data["link"]='grl/vehiculo/index';
+			$vehiculo = $this->input->post('input1');
+			$clave = $this->input->post('input2');
+			$ejes = $this->input->post('input3');
+			$result = $this->vehiculo_model->agrega($vehiculo,$clave,$ejes,$data["iduser"]);
+			$mensaje = $result[0]["mensaje"];
+			if ($mensaje=='ok'):
+				$data["result"]=1;
+			else:
+				$data["result"]=0;
+			endif;
+			$this->template->load('template','mensaje',$data);   
+		else:
+			redirect('login/index', 'refresh');
+		endif;
+	}
+	
+	public function estado()
+	{
+		$id = $this->input->get("id");
+		$estado = $this->input->get("estado");
+		if($estado==2):$new=1;else:$new=2;endif;
+		$data["result"] = $this->vehiculo_model->estado($id,$new);
+		if($data["result"]>0):
+			echo '{"msg":"ok"}';
+		else:
+			echo '{"msg":"ko"}';
+		endif;
+	}
+    
+	public function cambiar()
+	{
+		if($this->session->userdata('id')):
+     		$session_data = $this->session->userdata();
+     		$data['usuario'] = $session_data['username'];
+	 		$data['iduser'] = $session_data['id'];
+			$data['idperfil'] = $session_data['idperfil'];
+			$data["menu"] = $this->menu->crea_menu($data['idperfil']);
+			$id = $this->input->post("id");
+			$vehiculo = $this->input->post("input1");
+			$clave = $this->input->post("input2");
+			$ejes = $this->input->post("input3");
+			$result = $this->vehiculo_model->cambia($id,$vehiculo,$clave,$ejes);
+			$mensaje = $result[0]["mensaje"];
+			$data['css']='';
+			$data['js']='';
+			if ($mensaje=='ok'):
+				$data["result"]=1;
+			else:
+				$data["result"]=0;
+			endif;
+			$data["title"] ='VEHICULOS';
+			$data["icon"]='fa-truck';
+			$data["link"]='grl/vehiculo/index';
+			$this->template->load('template','mensaje',$data);
+		else:
+			redirect('login/index', 'refresh');
+		endif;
+	}
+}
+/*
+*end modules/login/controllers/index.php
+*/
