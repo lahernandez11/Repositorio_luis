@@ -98,14 +98,16 @@
             $("#grid").igGrid({
                 width: '100%',
                 columns: [
-		    	    { headerText: "FOLIO", key: "link", dataType: "string", width: "100%" },
+		    	    { headerText: "FOLIO", key: "folio", dataType: "string", width: "100%" },
 					{ headerText: "PROYECTO", key: "nombre_proyecto", dataType: "string", width: "100%" },					
 					{ headerText: "TEMA", key: "tema_solicitud", dataType:"string", width: "100%" },
 					{ headerText: "TIPO", key: "tipo_solicitud", dataType: "string", width: "100%" },
 					{ headerText: "FECHA REGISTRO", key: "fecha", format: "date",width: "100%"},	
 					{ headerText: "HORA REGISTRO", key: "hora", format: "time",width: "100%"},						
 					{ headerText: "ACCION", key: "idsolicitud", dataType: "string", width: "100%",
-					  template: "<a href='<?=base_url('baw/administrar/solicitudes_atendidas')?>/${idsolicitud}/1' class='atendidos' id='${idsolicitud}'>ATENDER</a>&nbsp;&nbsp;&nbsp;<a href='<?=base_url('baw/administrar/solicitudes_descartadas')?>/${idsolicitud}' id='${idsolicitud}' class='descartados'>DESCARTAR</a>"}
+					  template: "<a href='<?=base_url('baw/administrar/solicitudes_atendidas')?>/${idsolicitud}/1' class='atendidos' id='${idsolicitud}'>ATENDER</a>&nbsp;&nbsp;&nbsp;\n\
+                      <a href='<?=base_url('baw/administrar/solicitudes_descartadas')?>/${idsolicitud}' id='${idsolicitud}' class='descartados'>DESCARTAR</a>&nbsp;&nbsp;&nbsp;\n\
+<a href='' data-toggle=modal data-target=#myModal${idsolicitud}>CONSULTAR</a>"}
                 ],
                 
 				autofitLastColumn: false,
@@ -115,8 +117,8 @@
 				
 				    {
                         name: "Sorting",
-                        type: "local",
-                        mode: "multi"
+                        type: "local"/*,
+                        mode: "multi"*/
                     },
                     {
                         name: "Filtering",

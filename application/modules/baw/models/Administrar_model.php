@@ -21,9 +21,43 @@ class Administrar_model extends CI_Model
 	
 	public function solicitudes_registradas($iduser,$tipo)
 	{
-		$query = $this->db->query("SELECT '<a href=\"\" data-toggle=modal data-target=#myModal'+CAST(idsolicitud AS varchar(4000))+'>'+CAST(folio AS varchar(4000))+'</a>' AS link,*,CONVERT(DATE,timestamp,101)as fecha,CONVERT(VARCHAR(8),timestamp,108)as hora FROM vw_baw_solicitudes_registradas WHERE idproyecto IN (SELECT idproyecto FROM vw_grl_usuario_plaza where idusuario=".$iduser.") 
-		 AND (idtipo_solicitud in (".$tipo.") OR (idtipo_solicitud=6 AND idproyecto!=2))
-		  ORDER BY fecha DESC,hora DESC");
+		$query = $this->db->query("
+                    SELECT grl_usuario_plaza.idusuario,
+       vw_baw_solicitudes_registradas.nombre_proyecto,
+       vw_baw_solicitudes_registradas.tema_solicitud,
+       vw_baw_solicitudes_registradas.tipo_solicitud,
+       vw_baw_solicitudes_registradas.idsolicitud,
+       CAST (folio AS VARCHAR (4000)) AS folio,
+       CONVERT (DATE, vw_baw_solicitudes_registradas.[timestamp], 101)
+          AS fecha,
+       CONVERT (VARCHAR (8), vw_baw_solicitudes_registradas.[timestamp], 108)
+          AS hora
+  FROM (opi.dbo.grl_plaza grl_plaza
+        INNER JOIN
+        opi.dbo.vw_baw_solicitudes_registradas vw_baw_solicitudes_registradas
+           ON (grl_plaza.idproyecto =
+                  vw_baw_solicitudes_registradas.idproyecto))
+       INNER JOIN opi.dbo.grl_usuario_plaza grl_usuario_plaza
+          ON (grl_usuario_plaza.idplaza = grl_plaza.idplaza)
+ WHERE     (grl_usuario_plaza.idusuario = ".$iduser.")
+       AND (   idtipo_solicitud IN (".$tipo.")
+            OR (    idtipo_solicitud = 6
+                AND vw_baw_solicitudes_registradas.idproyecto != 2))
+GROUP BY grl_usuario_plaza.idusuario,
+         vw_baw_solicitudes_registradas.nombre_proyecto,
+         vw_baw_solicitudes_registradas.tema_solicitud,
+         vw_baw_solicitudes_registradas.tipo_solicitud,
+         vw_baw_solicitudes_registradas.idsolicitud,
+         CAST (folio AS VARCHAR (4000)),
+         CONVERT (DATE, vw_baw_solicitudes_registradas.[timestamp], 101),
+         CONVERT (VARCHAR (8),
+                  vw_baw_solicitudes_registradas.[timestamp],
+                  108),
+         vw_baw_solicitudes_registradas.idtipo_solicitud,
+         vw_baw_solicitudes_registradas.[timestamp]
+ORDER BY vw_baw_solicitudes_registradas.[timestamp] DESC
+
+                    ");
 		return $query->result_array();
 	} 
 	
