@@ -15,6 +15,12 @@
               			<label class="text-danger"><h5><?=$solicitud->folio?></h5></label>
             		</div>
           	</div>
+            <div class="form-group">
+            	<label for="ticket" class="col-sm-3 control-label">Fecha / Hora: </label>
+            		<div class="col-sm-9">
+                                <input type="text" class="form-control letra10" value="<?=$solicitud->fecha .' '. $solicitud->hora?>" readonly />
+            		</div>
+          	</div>
           	<div class="form-group">
             	<label for="solicitante" class="col-sm-3 control-label">Escrito por: </label>
             	<div class="col-sm-9">

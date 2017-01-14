@@ -304,7 +304,9 @@ WHERE s.idcon_solicitud=".$solicitud);
 	
 	public function desplega_consulta_solicitud($solicitud)
 	{
-		$query=$this->db->query("SELECT * FROM vw_baw_solicitud_respuesta WHERE idsolicitud=".$solicitud);
+		$query=$this->db->query("SELECT *,CONVERT (DATE, vw_baw_solicitud_respuesta.[timestamp], 101) AS fecha,
+       CONVERT (VARCHAR (8), vw_baw_solicitud_respuesta.[timestamp], 108)
+          AS hora FROM vw_baw_solicitud_respuesta WHERE idsolicitud=".$solicitud);
 		return $query->result();
 	}
 	
