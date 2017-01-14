@@ -92,14 +92,15 @@
             $("#grid").igGrid({
                 width: '100%',
                 columns: [
-		    	    { headerText: "FOLIO", key: "link", dataType: "string", width: "100%" },
+		    	    { headerText: "FOLIO", key: "folio", dataType: "string", width: "100%" },
 					{ headerText: "PROYECTO", key: "nombre_proyecto", dataType: "string", width: "100%" },					
 					{ headerText: "TEMA", key: "tema_solicitud", dataType:"string", width: "100%" },
 					{ headerText: "TIPO", key: "tipo_solicitud", dataType: "string", width: "100%" },
 					{ headerText: "FECHA REGISTRO", key: "fecha", format: "date",width: "100%"},	
 					{ headerText: "HORA REGISTRO", key: "hora", format: "time",width: "100%"},							
 					{ headerText: "ACCION", key: "idcon_solicitud", dataType: "string", width: "100%",
-					  template: "<a href='<?=base_url('baw/administrar/consulta')?>/${idcon_solicitud}' class='atendidos' id='${idcon_solicitud}'>CONSULTAR</a>"}
+					  template: "<a href='<?=base_url('baw/administrar/consulta')?>/${idcon_solicitud}' class='atendidos' id='${idcon_solicitud}'>CONSULTAR</a>\n\
+                                            &nbsp;&nbsp;&nbsp;<a href='' data-toggle=modal data-target=#myModal${idcon_solicitud}><DIV>VER SOLICITUD</DIV></a>"}
                 ],
                 
 				autofitLastColumn: false,
@@ -109,8 +110,7 @@
 				
 				    {
                         name: "Sorting",
-                        type: "local",
-                        mode: "multi"
+                        type: "local"
                     },
                     {
                         name: "Filtering",

@@ -107,7 +107,7 @@
 					{ headerText: "ACCION", key: "idsolicitud", dataType: "string", width: "100%",
 					  template: "<a href='<?=base_url('baw/administrar/solicitudes_atendidas')?>/${idsolicitud}/1' class='atendidos' id='${idsolicitud}'>ATENDER</a>&nbsp;&nbsp;&nbsp;\n\
                       <a href='<?=base_url('baw/administrar/solicitudes_descartadas')?>/${idsolicitud}' id='${idsolicitud}' class='descartados'>DESCARTAR</a>&nbsp;&nbsp;&nbsp;\n\
-<a href='' data-toggle=modal data-target=#myModal${idsolicitud}>CONSULTAR</a>"}
+<a href='' data-toggle=modal data-target=#myModal${idsolicitud}><DIV>VER SOLICITUD</DIV></a>"}
                 ],
                 
 				autofitLastColumn: false,

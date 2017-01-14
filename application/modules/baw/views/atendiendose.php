@@ -97,16 +97,17 @@
             $("#grid").igGrid({
                 width: '100%',
                 columns: [
-		    	    { headerText: "FOLIO", key: "link", dataType: "string", width: "100%" },
+		    	    { headerText: "FOLIO", key: "folio", dataType: "string", width: "100%" },
 					{ headerText: "PROYECTO", key: "nombre_proyecto", dataType: "string", width: "100%" },					
 					{ headerText: "TEMA", key: "tema_solicitud", dataType:"string", width: "100%" },
 					{ headerText: "TIPO", key: "tipo_solicitud", dataType: "string", width: "100%" },
 					{ headerText: "FECHA REGISTRO", key: "fecha", format: "date",width: "100%"},	
 					{ headerText: "HORA REGISTRO", key: "hora", format: "time",width: "100%"},							
 					{ headerText: "ACCION", key: "idcon_solicitud", dataType: "string", width: "100%",
-					  template: "<a href='<?=base_url('baw/administrar/solicitudes_atendidas')?>/${idcon_solicitud}/0' class='atendidos' id='${idcon_solicitud}'>ATENDER</a>&nbsp;&nbsp;&nbsp;<a href='<?=base_url('baw/administrar/solicitudes_atendidas_descartadas')?>/${idcon_solicitud}' id='${idcon_solicitud}' class='descartados'>DESCARTAR</a>"}
+					  template: "<a href='<?=base_url('baw/administrar/solicitudes_atendidas')?>/${idcon_solicitud}/0' class='atendidos' id='${idcon_solicitud}'>ATENDER</a>\n\
+                                                    &nbsp;&nbsp;&nbsp;<a href='<?=base_url('baw/administrar/solicitudes_atendidas_descartadas')?>/${idcon_solicitud}' id='${idcon_solicitud}' class='descartados'>DESCARTAR</a>\n\
+                                                    &nbsp;&nbsp;&nbsp;<a href='' data-toggle=modal data-target=#myModal${idcon_solicitud}><DIV>VER SOLICITUD</DIV></a>"}
                 ],
-                
 				autofitLastColumn: false,
     			autoGenerateColumns: false,
     			dataSource: <?=$datasource?>,
@@ -114,8 +115,7 @@
 				
 				    {
                         name: "Sorting",
-                        type: "local",
-                        mode: "multi"
+                        type: "local"
                     },
                     {
                         name: "Filtering",

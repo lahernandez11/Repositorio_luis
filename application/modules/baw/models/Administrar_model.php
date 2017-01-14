@@ -152,18 +152,83 @@ LEFT OUTER JOIN grl_usuario_plaza up ON up.idplaza = st.plaza_cobro AND idusuari
 	
 	public  function solicitudes_atendiendose($iduser,$tipo)
 	{
-		$query=$this->db->query("SELECT '<a href=\"\" data-toggle=modal data-target=#myModal'+CAST(idcon_solicitud AS varchar(4000))+'>'+CAST(folio AS varchar(4000))+'</a>' AS link,*,CONVERT(DATE,timestamp,101)as fecha,CONVERT(VARCHAR(8),timestamp,108)as hora FROM vw_baw_solicitudes_atendidas WHERE idproyecto IN (SELECT idproyecto FROM vw_grl_usuario_plaza where idusuario=".$iduser.") 
-		AND (idtipo_solicitud in (".$tipo.") OR (idtipo_solicitud=6 AND idproyecto!=2))
-		AND idestado_solicitud=1 
-		ORDER BY fecha DESC,hora DESC");
+		$query=$this->db->query("
+                
+SELECT grl_usuario_plaza.idusuario,
+       CAST (folio AS VARCHAR (4000)) AS folio,
+       CONVERT (DATE, vw_baw_solicitudes_atendidas.[timestamp], 101) AS fecha,
+       CONVERT (VARCHAR (8), vw_baw_solicitudes_atendidas.[timestamp], 108)
+          AS hora,
+       vw_baw_solicitudes_atendidas.idsolicitud,
+       vw_baw_solicitudes_atendidas.nombre_proyecto,
+       vw_baw_solicitudes_atendidas.idtipo_solicitud,
+       vw_baw_solicitudes_atendidas.tipo_solicitud,
+       vw_baw_solicitudes_atendidas.tema_solicitud,
+       vw_baw_solicitudes_atendidas.idcon_solicitud
+  FROM (opi.dbo.grl_plaza grl_plaza
+        INNER JOIN
+        opi.dbo.vw_baw_solicitudes_atendidas vw_baw_solicitudes_atendidas
+           ON (grl_plaza.idproyecto = vw_baw_solicitudes_atendidas.idproyecto))
+       INNER JOIN opi.dbo.grl_usuario_plaza grl_usuario_plaza
+          ON (grl_usuario_plaza.idplaza = grl_plaza.idplaza)
+ WHERE     (grl_usuario_plaza.idusuario = ".$iduser.")
+       AND (vw_baw_solicitudes_atendidas.idestado_solicitud = 1)
+       AND (   idtipo_solicitud IN (".$tipo.")
+            OR (    idtipo_solicitud = 6
+                AND vw_baw_solicitudes_atendidas.idproyecto != 2))
+GROUP BY grl_usuario_plaza.idusuario,
+         CONVERT (DATE, vw_baw_solicitudes_atendidas.[timestamp], 101),
+         CAST (folio AS VARCHAR (4000)),
+         CONVERT (VARCHAR (8), vw_baw_solicitudes_atendidas.[timestamp], 108),
+         vw_baw_solicitudes_atendidas.idsolicitud,
+         vw_baw_solicitudes_atendidas.nombre_proyecto,
+         vw_baw_solicitudes_atendidas.idtipo_solicitud,
+         vw_baw_solicitudes_atendidas.tipo_solicitud,
+         vw_baw_solicitudes_atendidas.tema_solicitud,
+         vw_baw_solicitudes_atendidas.idcon_solicitud
+ORDER BY 3 DESC, 2 DESC
+                
+                ");
 		return $query->result_array();
 	}
 	
 	public  function solicitudes_atendidos($iduser,$tipo)
 	{
-		$query=$this->db->query("SELECT '<a href=\"\" data-toggle=modal data-target=#myModal'+CAST(idcon_solicitud AS varchar(4000))+'>'+CAST(folio AS varchar(4000))+'</a>' AS link,*,CONVERT(DATE,timestamp,101)as fecha,CONVERT(VARCHAR(8),timestamp,108)as hora FROM vw_baw_solicitudes_atendidas WHERE idproyecto IN (SELECT idproyecto FROM vw_grl_usuario_plaza where idusuario=".$iduser.")AND idestado_solicitud=2 
-		AND (idtipo_solicitud in (".$tipo.") OR (idtipo_solicitud=6 AND idproyecto!=2))
-		ORDER BY fecha DESC,hora DESC");
+		$query=$this->db->query("
+                
+SELECT grl_usuario_plaza.idusuario,
+       CAST (folio AS VARCHAR (4000)) AS folio,
+       CONVERT (DATE, vw_baw_solicitudes_atendidas.[timestamp], 101) AS fecha,
+       CONVERT (VARCHAR (8), vw_baw_solicitudes_atendidas.[timestamp], 108)
+          AS hora,
+       vw_baw_solicitudes_atendidas.idsolicitud,
+       vw_baw_solicitudes_atendidas.nombre_proyecto,
+       vw_baw_solicitudes_atendidas.idtipo_solicitud,
+       vw_baw_solicitudes_atendidas.tipo_solicitud,
+       vw_baw_solicitudes_atendidas.tema_solicitud,
+       vw_baw_solicitudes_atendidas.idcon_solicitud
+  FROM (opi.dbo.grl_plaza grl_plaza
+        INNER JOIN
+        opi.dbo.vw_baw_solicitudes_atendidas vw_baw_solicitudes_atendidas
+           ON (grl_plaza.idproyecto = vw_baw_solicitudes_atendidas.idproyecto))
+       INNER JOIN opi.dbo.grl_usuario_plaza grl_usuario_plaza
+          ON (grl_usuario_plaza.idplaza = grl_plaza.idplaza)
+ WHERE     (grl_usuario_plaza.idusuario = ".$iduser.")
+       AND (vw_baw_solicitudes_atendidas.idestado_solicitud = 2)
+       AND (   idtipo_solicitud IN (".$tipo.")
+            OR (    idtipo_solicitud = 6
+                AND vw_baw_solicitudes_atendidas.idproyecto != 2))
+GROUP BY grl_usuario_plaza.idusuario,
+         CONVERT (DATE, vw_baw_solicitudes_atendidas.[timestamp], 101),
+         CAST (folio AS VARCHAR (4000)),
+         CONVERT (VARCHAR (8), vw_baw_solicitudes_atendidas.[timestamp], 108),
+         vw_baw_solicitudes_atendidas.idsolicitud,
+         vw_baw_solicitudes_atendidas.nombre_proyecto,
+         vw_baw_solicitudes_atendidas.idtipo_solicitud,
+         vw_baw_solicitudes_atendidas.tipo_solicitud,
+         vw_baw_solicitudes_atendidas.tema_solicitud,
+         vw_baw_solicitudes_atendidas.idcon_solicitud
+ORDER BY 3 DESC, 2 DESC");
 		return $query->result_array();
 	}
 	
