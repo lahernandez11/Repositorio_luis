@@ -474,7 +474,7 @@ para recibir mensajes.
 		$valoracion = $this->input->get('valoracion');
 		$usuario = $this->input->get('usuario');
 		
-		$insert=$this->dashboard_model->get_guarda_anotacion($idprogramacion,$hora,$fecha,utf8_decode($nota),$valoracion,$usuario);		
+		$insert=$this->dashboard_model->get_guarda_anotacion($idprogramacion,$hora,$fecha,($nota),$valoracion,$usuario);		
 		echo '{"msg":'.$insert[0]["mensaje"].'}';	
 	}
 	
