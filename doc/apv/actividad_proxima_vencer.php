@@ -21,7 +21,7 @@ $array_correos = array(
 
 //CONEXION OPI
 function conectar_sql_server(){
-	$serverName = '172.20.74.3\GHIAPP'; //serverName\instanceName
+	$serverName = 'PREFLAHERNANDEZ\SQLEXPRESS'; //serverName\instanceName
 	$connectionInfo = array( "Database"=>"opi", "UID"=>"oaguayo", "PWD"=>"2014_opc7");
 	if(!$link=sqlsrv_connect($serverName,$connectionInfo)){
 		$mail->Subject    = "Mensaje de conexion OPI APV";

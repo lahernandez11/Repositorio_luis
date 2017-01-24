@@ -14,7 +14,7 @@ class Datatables
 		$gaSql['user']       = "oaguayo";
 		$gaSql['password']   = "2014_opc7";
 		$gaSql['db']         = "popi";
-		$gaSql['server']     = "172.20.74.3\GHIAPP";
+		$gaSql['server']     = "PREFLAHERNANDEZ\SQLEXPRESS";
 		 
 		/*
 		* Columns
@@ -35,7 +35,7 @@ class Datatables
 		
 		// Puesto que no se han especificado UID ni PWD en el array  $connectionInfo,
 		// La conexión se intentará utilizando la autenticación Windows.
-		$gaSql['link'] = mssql_connect('172.20.74.3\GHIAPP', 'oaguayo', '2014_opc7');
+		$gaSql['link'] = mssql_connect('PREFLAHERNANDEZ\SQLEXPRESS', 'oaguayo', '2014_opc7');
 		
 		if (!$gaSql['link'] || !mssql_select_db('popi', $gaSql['link'])) {
 			die('No se puede conectar o seleccionar una base de datos!');

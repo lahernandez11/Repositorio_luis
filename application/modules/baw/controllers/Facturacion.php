@@ -652,7 +652,7 @@ $comentario
 Se le recuerda que usted debe responder esta solicitud
 desde el m&oacute;dulo de Atenci&oacute;n a 
 usuarios ubicado en la siguiente direcci&oacute;n:
-<a href="http://opc.grupohi.mx/baw/informacion/index">
+<a href="http://localhost/opc.grupohi.mx/baw/informacion/index">
 Responder</a><br><br>
 <br>
 <i style="font-size:10px;">

@@ -31,16 +31,20 @@
 </div>
 <div class="row" align="center">
 	<div class="col-md-3"></div>
-    <div class="col-md-3">
+    <div class="col-md-2">
     	<a href="<?=base_url('doc/consulta/index');?>" class="bom-menu">
     		<i class="fa fa-search fa-5x"></i><h6><strong>CONSULTA <br/> TAREAS PROGRAMADAS</strong></h6>
         </a>
     </div>
     <!-- <div class="col-md-2"><i class="fa fa-envelope fa-5x"></i><h6><strong>NOTIFICACIONES</strong></h6></div>-->
-    <div class="col-md-3">
+    <div class="col-md-2">
     	<a href="<?=base_url('doc/administracion/index');?>" class="bom-menu">
     		<i class="fa fa-gear fa-5x"></i><h6><strong>ADMINISTRACI&Oacute;N</strong></h6>
         </a>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2">
+        <a href="<?=base_url('doc/dashboard_hist/index');?>" class="bom-menu">
+            <i class="fa fa-dashboard fa-5x"></i><h6><strong>DASHBOARD HISTORICO</strong></h6>
+        </a>
+    </div>
 </div>

@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 //session_start(); 
-class Dashboard extends MX_Controller
+class Dashboard_hist extends MX_Controller
 {
     
     public function __construct(){
         parent::__construct();
         $this->load->library('template');  
 		$this->load->library('menu'); 
-		$this->load->model('dashboard_model');  
+		$this->load->model('dashboard_hist_model');  
     }
 	
     public function info(){
@@ -22,14 +22,14 @@ class Dashboard extends MX_Controller
 			$data['idperfil'] = $session_data['idperfil'];
 			$data["menu"] = $this->menu->crea_menu($data['idperfil']);
 			//$data["menu_doc"] = $this->menu->crea_menu_doc($data['idperfil'],$data['iduser']);
-			$data['proyectos'] = $this->dashboard_model->desplegar_proyectos($data['iduser']);
+			$data['proyectos'] = $this->dashboard_hist_model->desplegar_proyectos_hist($data['iduser']);
 			//print_r($data["proyectos"]);
 			$data['css'] = '<link href="'.base_url('assets/css/bootstrap-datetimepicker.min.css').'" rel="stylesheet">';
-			$data['js'] = '<script src="'.base_url('assets/js/doc-dash.js').'"></script>';
+			$data['js'] = '<script src="'.base_url('assets/js/doc-dash-hist.js').'"></script>';
 			$data['js'] .= '<script src="'.base_url('assets/js/bootstrap-datetimepicker.min.js').'"></script>';
-			$data['js'] .= '<script src="'.base_url('assets/js/bootstrap-datetimepicker-init.js').'"></script>';																																																																																																																																																																																																																																																					
-			$data['js'] .= '<script src="'.base_url('assets/js/jquery-form.js').'"></script>';
-			$this->template->load('template','dashboard',$data);
+			$data['js'] .= '<script src="'.base_url('assets/js/bootstrap-datetimepicker-init.js').'"></script>';
+            $data['js'] .= '<script src="'.base_url('assets/js/jquery-form.js').'"></script>';
+			$this->template->load('template','dashboard_hist',$data);
 		else:
 			redirect('login/index', 'refresh');
 		endif;  	      
@@ -44,7 +44,7 @@ class Dashboard extends MX_Controller
 
                     $fecha_inicio = $this->input->get('fecha_inicio');
                     $fecha_fin = $this->input->get('fecha_fin');
-                    $proyectos = $this->dashboard_model->desplegar_proyectos_fecha($data['iduser'],$fecha_inicio,$fecha_fin);
+                    $proyectos = $this->dashboard_hist_model->desplegar_proyectos_fecha_hist($data['iduser'],$fecha_inicio,$fecha_fin);
                     $datasource = array();
                     foreach ($proyectos as $resultado):
                             //$datasource[]=array_map('utf8_encode', $resultado);
@@ -66,7 +66,7 @@ class Dashboard extends MX_Controller
                     $idproyecto = $this->input->get('idproyecto');
                     $fecha_inicio = $this->input->get('fecha_inicio');
                     $fecha_fin = $this->input->get('fecha_fin');
-                    $contratos = $this->dashboard_model->desplegar_contratos($data['iduser'],$idproyecto,$fecha_inicio,$fecha_fin);
+                    $contratos = $this->dashboard_hist_model->desplegar_contratos_hist($data['iduser'],$idproyecto,$fecha_inicio,$fecha_fin);
                     $datasource = array();
                     foreach ($contratos as $resultado):
                             //$datasource[]=array_map('utf8_encode', $resultado);
@@ -88,7 +88,7 @@ class Dashboard extends MX_Controller
                     $idcontrato = $this->input->get('idcontrato');
                     $fecha_inicio = $this->input->get('fecha_inicio');
                     $fecha_fin = $this->input->get('fecha_fin');
-                    $categorias = $this->dashboard_model->desplegar_categorias($data['iduser'],$idcontrato,$fecha_inicio,$fecha_fin);
+                    $categorias = $this->dashboard_hist_model->desplegar_categorias_hist($data['iduser'],$idcontrato,$fecha_inicio,$fecha_fin);
                     $datasource = array();
                     foreach ($categorias as $resultado):
                             //$datasource[]=array_map('utf8_encode', $resultado);
@@ -111,7 +111,7 @@ class Dashboard extends MX_Controller
                     $idcategoria = $this->input->get('idcategoria');
                     $fecha_inicio = $this->input->get('fecha_inicio');
                     $fecha_fin = $this->input->get('fecha_fin');
-                    $subcategorias = $this->dashboard_model->desplegar_subcategorias($data['iduser'],$idcontrato,$idcategoria,$fecha_inicio,$fecha_fin);
+                    $subcategorias = $this->dashboard_hist_model->desplegar_subcategorias_hist($data['iduser'],$idcontrato,$idcategoria,$fecha_inicio,$fecha_fin);
                     $datasource = array();
                     foreach ($subcategorias as $resultado):
                             //$datasource[]=array_map('utf8_encode', $resultado);
@@ -135,7 +135,7 @@ class Dashboard extends MX_Controller
             $idsubcategoria = $this->input->get('idsubcategoria');
             $fecha_inicio = $this->input->get('fecha_inicio');
             $fecha_fin = $this->input->get('fecha_fin');
-            $actividades = $this->dashboard_model->desplegar_actividades($data['iduser'],$idcontrato,$idcategoria,$idsubcategoria,$fecha_inicio,$fecha_fin);
+            $actividades = $this->dashboard_hist_model->desplegar_actividades_hist($data['iduser'],$idcontrato,$idcategoria,$idsubcategoria,$fecha_inicio,$fecha_fin);
             $datasource = array();
             
             foreach ($actividades as $resultado):
@@ -149,31 +149,10 @@ class Dashboard extends MX_Controller
         endif;
     }
 	
-    public function historicos(){
-            if($this->session->userdata('id')):
-            $session_data = $this->session->userdata();
-            $data['usuario'] = $session_data['username'];
-                    $data['iduser'] = $session_data['id'];
-                    $data['idperfil'] = $session_data['idperfil'];
-
-                    $idcontrato = $this->input->get('idcontrato');
-                    $idcategoria = $this->input->get('idcategoria');
-                    $idsubcategoria = $this->input->get('idsubcategoria');
-                    $actividades = $this->dashboard_model->desplegar_historicos($data['iduser'],$idcontrato,$idcategoria,$idsubcategoria);
-                    $datasource = array();
-                    foreach ($actividades as $resultado):
-                            //$datasource[]=array_map('utf8_encode', $resultado);
-                            $datasource[]=($resultado);
-                    endforeach;
-                    echo json_encode($datasource);
-            else:
-                    redirect('login/index', 'refresh');
-            endif;
-    }
 
     public function programacion(){
             $idprogramacion = $this->input->get('idprogramacion');
-            $programaciones = $this->dashboard_model->desplegar_programacion($idprogramacion);
+            $programaciones = $this->dashboard_hist_model->desplegar_programacion_hist($idprogramacion);
             $datasource = array();
             foreach ($programaciones as $resultado):
                     //$datasource[]=array_map('utf8_encode', $resultado);
@@ -184,7 +163,7 @@ class Dashboard extends MX_Controller
 	
     public function programacion_actividad(){
             $idprogramacion = $this->input->get('idprogramacion');
-            $programaciones = $this->dashboard_model->desplegar_programacion_actividad($idprogramacion);
+            $programaciones = $this->dashboard_hist_model->desplegar_programacion_actividad($idprogramacion);
             $datasource = array();
             foreach ($programaciones as $resultado):
                     //$datasource[]=array_map('utf8_encode', $resultado);
@@ -195,7 +174,7 @@ class Dashboard extends MX_Controller
 
     public function areas(){
             $idprogramacion = $this->input->get('idprogramacion');
-            $areas = $this->dashboard_model->desplegar_areas($idprogramacion);
+            $areas = $this->dashboard_hist_model->desplegar_areas($idprogramacion);
             $datasource = array();
             foreach ($areas as $resultado):
                     //$datasource[]=array_map('utf8_encode', $resultado);
@@ -206,7 +185,7 @@ class Dashboard extends MX_Controller
 	
     public function areas_usuarios(){
             $idarea = $this->input->get('idarea');
-            $usuarios = $this->dashboard_model->desplegar_areas_usuarios($idarea);
+            $usuarios = $this->dashboard_hist_model->desplegar_areas_usuarios($idarea);
             $datasource = array();
             foreach ($usuarios as $resultado):
                     //$datasource[]=array_map('utf8_encode', $resultado);
@@ -234,7 +213,7 @@ class Dashboard extends MX_Controller
                     elseif($ruta=='cerrar'):
                             $texto='cerrada';
                     endif;
-                    $result = $this->dashboard_model->cambiar_estado($idprogramacion,$estado,$data['usuario']);
+                    $result = $this->dashboard_hist_model->cambiar_estado($idprogramacion,$estado,$data['usuario']);
                     echo '{"msg":'.$result[0]["mensaje"].',"text":"'.$texto.'"}';
             else:
                     redirect('login/index', 'refresh');
@@ -274,7 +253,7 @@ class Dashboard extends MX_Controller
                                     move_uploaded_file($_FILES["myfile"]["tmp_name"],$output_dir.$file);
                                     echo "La evidencia documental ha sido registrada";
                                     //$file = utf8_decode($file);
-                                    $result = $this->dashboard_model->agregar_evidencia($idprogramacion,utf8_encode($file),$idestado,$data['usuario']);
+                                    $result = $this->dashboard_hist_model->agregar_evidencia($idprogramacion,utf8_encode($file),$idestado,$data['usuario']);
 
                             else:
                                     echo "Ha ocurrido un error, el soporte debe ser PDF, WORD, EXCEL, POWER POINT, ZIP, JPG, TXT";
@@ -289,7 +268,7 @@ class Dashboard extends MX_Controller
 	
     public function desplegar_evidencias(){
             $idprogramacion = $this->input->get('idprogramacion');
-            $evidencias = $this->dashboard_model->desplegar_evidencias($idprogramacion);
+            $evidencias = $this->dashboard_hist_model->desplegar_evidencias($idprogramacion);
             $datasource = array();
             foreach ($evidencias as $resultado):
                     //$datasource[]=array_map('utf8_encode', $resultado);
@@ -304,7 +283,7 @@ class Dashboard extends MX_Controller
             $data['usuario'] = $session_data['username'];
                     $data['iduser'] = $session_data['id'];
                     $iddocumento = $this->input->get('iddocumento');
-                    $result = $this->dashboard_model->eliminar_evidencia($iddocumento);
+                    $result = $this->dashboard_hist_model->eliminar_evidencia($iddocumento);
                     echo '{"msg":'.$result[0]["mensaje"].'}';
             else:
                     redirect('login/index', 'refresh');
@@ -314,7 +293,7 @@ class Dashboard extends MX_Controller
 	public function notificacion(){
 		$idprogramacion = $this->input->get('not-idprogramacion');
 		$correos = $this->input->get('correos');
-		$datos = $this->dashboard_model->desplegar_programacion($idprogramacion);
+		$datos = $this->dashboard_hist_model->desplegar_programacion($idprogramacion);
 		$this->load->library('My_PHPMailer');
 		$mail = new PHPMailer();
 		$mail->IsSMTP(); 
@@ -380,7 +359,7 @@ src="'.base_url('assets/img/logo_.png').'">
   <br>
   <table style="font-size:10px;">
   	<tr>
-		<td valign="top"><b>ID TAREA PROGRAMA</b></td><td valign="top"><a href="localhost/opc.grupohi.mx/doc/dashboard/index">P-'.$datos[0]["idprogramacion"].'</a></td>
+		<td valign="top"><b>ID TAREA PROGRAMA</b></td><td valign="top"><a href="localhost/opc.grupohi.mx/doc/dashboard_hist/index">P-'.$datos[0]["idprogramacion"].'</a></td>
 	</tr>
 	<tr>
 		<td valign="top"><b>ACTIVIDAD</b></td><td valign="top">'.utf8_decode($datos[0]["nombre_actividad"]).'</td>
@@ -435,7 +414,7 @@ para recibir mensajes.
 	
 	public function desplegar_botones(){
 		$idprogramacion = $this->input->get('idprogramacion');
-		$botones  = $this->dashboard_model->get_botones($idprogramacion);
+		$botones  = $this->dashboard_hist_model->get_botones($idprogramacion);
 		$datasource = array();
 		foreach ($botones as $resultado):
 			//$datasource[]=array_map('utf8_encode', $resultado);
@@ -446,7 +425,7 @@ para recibir mensajes.
 	
 	public function desplegar_seguimiento(){
 		$idprogramacion = $this->input->get('idprogramacion');
-		$seguimiento  = $this->dashboard_model->get_seguimiento($idprogramacion);
+		$seguimiento  = $this->dashboard_hist_model->get_seguimiento($idprogramacion);
 		$datasource = array();
 		foreach ($seguimiento as $resultado):
 			//$datasource[]=array_map('utf8_encode', $resultado);
@@ -457,7 +436,7 @@ para recibir mensajes.
 
 	public function numero_evidencia(){
 		$idprogramacion = $this->input->get('idprogramacion');
-		$seguimiento  = $this->dashboard_model->get_numero_evidencia($idprogramacion);
+		$seguimiento  = $this->dashboard_hist_model->get_numero_evidencia($idprogramacion);
 		$datasource = array();
 		foreach ($seguimiento as $resultado):
 			//$datasource[]=array_map('utf8_encode', $resultado);
@@ -474,14 +453,14 @@ para recibir mensajes.
 		$valoracion = $this->input->get('valoracion');
 		$usuario = $this->input->get('usuario');
 		
-		$insert=$this->dashboard_model->get_guarda_anotacion($idprogramacion,$hora,$fecha,($nota),$valoracion,$usuario);		
+		$insert=$this->dashboard_hist_model->get_guarda_anotacion($idprogramacion,$hora,$fecha,($nota),$valoracion,$usuario);		
 		echo '{"msg":'.$insert[0]["mensaje"].'}';	
 	}
 	
 	public function desplegar_anotaciones()
 	{
 		$idprogramacion = $this->input->get('idprogramacion');
-		$anotaciones = $this->dashboard_model->desplegar_anotaciones($idprogramacion);
+		$anotaciones = $this->dashboard_hist_model->desplegar_anotaciones($idprogramacion);
 		$datasource = array();
 		foreach ($anotaciones as $resultado):
 			//$datasource[]=array_map('utf8_encode', $resultado);
@@ -493,21 +472,21 @@ para recibir mensajes.
 	public function bloquea_anotacion()
 	{
 		$id = $this->input->get('id');
-		$cambio=$this->dashboard_model->get_bloquea_anotacion($id);		
+		$cambio=$this->dashboard_hist_model->get_bloquea_anotacion($id);		
 		echo '{"msg":'.$cambio[0]["mensaje"].'}';	
 	}
 	
 	public function eliminar_anotacion()
 	{
 		$id = $this->input->get('id');
-		$delete=$this->dashboard_model->get_eliminar_anotacion($id);		
+		$delete=$this->dashboard_hist_model->get_eliminar_anotacion($id);		
 		echo '{"msg":'.$delete[0]["mensaje"].'}';
 	}
 	
 	public function numero_anotacion()
 	{
 		$idprogramacion = $this->input->get('idprogramacion');
-		$seguimiento  = $this->dashboard_model->get_numero_anotacion($idprogramacion);
+		$seguimiento  = $this->dashboard_hist_model->get_numero_anotacion($idprogramacion);
 		$datasource = array();
 		foreach ($seguimiento as $resultado):
 			//$datasource[]=array_map('utf8_encode', $resultado);
