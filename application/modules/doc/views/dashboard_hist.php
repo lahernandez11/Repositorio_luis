@@ -68,7 +68,7 @@
 </style>
 <div class="page-header">
 	<h4><a class="bom-menu" href="<?=base_url('doc/home/index')?>"> 
-    <i class="fa fa-institution fa-2x"></i> DOCUMENTOS </a>/ <a class="bom-menu" href="<?=base_url('doc/contratos_concesion/index')?>">CONTRATOS DE CONCESI&Oacute;N </a> / DASHBOARD HISTORICO <?= $iduser;?></h4>
+    <i class="fa fa-institution fa-2x"></i> DOCUMENTOS </a>/ <a class="bom-menu" href="<?=base_url('doc/contratos_concesion/index')?>">CONTRATOS DE CONCESI&Oacute;N </a> / DASHBOARD HISTORICO <SPAN style="color:#FFF"><?= $iduser;?></span></h4>
 </div>
 <?php
 
