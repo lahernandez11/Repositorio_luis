@@ -89,7 +89,7 @@ class Programacion extends MX_Controller
 	</thead>
 	<tbody>';
 	foreach($datos as $dato):
-		$html .= '<tr style="background-color:#D8E4B9"><td valign="top" align="center"><a href="http://localhost/opc.grupohi.mx/doc/dashboard/index">P-'.$dato["idprogramacion"].'</a></td><td valign="top">'.utf8_decode($dato["nombre_actividad"]).'</td><td valign="top">'.utf8_decode($dato["descripcion_actividad"]).'</td><td valign="top">'.utf8_decode($dato["persona_responsable"]).'</td><td valign="top">'.$dato["fecha"].'</td><td valign="top">'.$dato["estado_actividad"].'</td></tr>';
+		$html .= '<tr style="background-color:#D8E4B9"><td valign="top" align="center"><a href="http://opc.grupohi.mx/doc/dashboard/index">P-'.$dato["idprogramacion"].'</a></td><td valign="top">'.utf8_decode($dato["nombre_actividad"]).'</td><td valign="top">'.utf8_decode($dato["descripcion_actividad"]).'</td><td valign="top">'.utf8_decode($dato["persona_responsable"]).'</td><td valign="top">'.$dato["fecha"].'</td><td valign="top">'.$dato["estado_actividad"].'</td></tr>';
 	endforeach;
 	$html .= '</tbody></table><br><p style="color:#444444;font-size:12px;"><span>Este correo es informativo, favor de no responder a 
 esta direcci&oacute;n de correo, ya que no se encuentra habilitada para recibir mensajes.<br><br></span><i>Mensaje enviado autom&aacute;ticamente desde el M&oacute;dulo de Operaci&oacute;n e Infraestructura.</i></p><img src="http://intranet.grupohi.mx/ghi_mail.png"></div>

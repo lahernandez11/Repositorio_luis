@@ -10,7 +10,7 @@
         }
         // El encabezado del PDF
         public function Header(){
-            $this->Image('http://localhost/opc.grupohi.mx/assets/img/logo_.png',15,12,30);
+            $this->Image('http://opc.grupohi.mx/assets/img/logo_.png',15,12,30);
             $this->SetFont('Arial','B',13);
             $this->Cell(20);
             $this->Cell(145,10,utf8_decode('VALIDACIÓN AUTOMÁTICA'),0,0,'C');

@@ -359,7 +359,7 @@ src="'.base_url('assets/img/logo_.png').'">
   <br>
   <table style="font-size:10px;">
   	<tr>
-		<td valign="top"><b>ID TAREA PROGRAMA</b></td><td valign="top"><a href="localhost/opc.grupohi.mx/doc/dashboard_hist/index">P-'.$datos[0]["idprogramacion"].'</a></td>
+		<td valign="top"><b>ID TAREA PROGRAMA</b></td><td valign="top"><a href="opc.grupohi.mx/doc/dashboard_hist/index">P-'.$datos[0]["idprogramacion"].'</a></td>
 	</tr>
 	<tr>
 		<td valign="top"><b>ACTIVIDAD</b></td><td valign="top">'.utf8_decode($datos[0]["nombre_actividad"]).'</td>
