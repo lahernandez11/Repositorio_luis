@@ -91,7 +91,7 @@ $c_correos=consulta_correos();
 
 //CONEXION POPI
 function conectar_sql_server(){
-	if(!($link=mssql_connect('PREFLAHERNANDEZ\SQLEXPRESS', 'oaguayo', '2014_opc7'))){
+	if(!($link=mssql_connect('172.20.74.3\GHIAPP', 'oaguayo', '2014_opc7'))){
 		$mail->Subject    = "Mensaje de conexion POPI NPV";
 		$texto="Error de conexion: a servidor popi correo incidencias proximas a vencer %s\n";		
 		$mail->Body		= $texto;

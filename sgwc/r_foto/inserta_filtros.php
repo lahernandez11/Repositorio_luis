@@ -1,5 +1,5 @@
 <?php
-$serverName = 'PREFLAHERNANDEZ\SQLEXPRESS'; //serverName\instanceName
+$serverName = '172.20.74.3\GHIAPP'; //serverName\instanceName
 $connectionInfo = array( "Database"=>"opi", "UID"=>"oaguayo", "PWD"=>"2014_opc7");
 $link=sqlsrv_connect($serverName,$connectionInfo);
 

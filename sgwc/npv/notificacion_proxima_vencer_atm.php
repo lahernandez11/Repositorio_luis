@@ -91,7 +91,7 @@ $consulta_subtipos=consulta_subtipos();
 
 //CONEXION OPI
 function conectar_sql_server(){
-	$serverName = 'PREFLAHERNANDEZ\SQLEXPRESS'; //serverName\instanceName
+	$serverName = '172.20.74.3\GHIAPP'; //serverName\instanceName
 	$connectionInfo = array( "Database"=>"opi", "UID"=>"oaguayo", "PWD"=>"2014_opc7");
 	if(!$link=sqlsrv_connect($serverName,$connectionInfo)){
 		$mail->Subject    = "Mensaje de conexion OPI APV";
