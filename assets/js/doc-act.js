@@ -189,6 +189,15 @@ $(document).ready(function(e) {
 	});
 	
 	$('#grid').on('click','a.modificar-actividad',function(){
+
+		contrato = $("select#act-contrato option:selected").val();
+		categoria = $("select#act-categoria-select option:selected").val();
+		subcategoria = $("select#act-subcategoria-select option:selected").val();
+
+		$("#mod-contrato").attr('selected','selected').val(contrato);
+		$("#mod-categoria").attr('selected','selected').val(categoria);
+		$("#mod-subcategoria").attr('selected','selected').val(subcategoria);
+
 		idactividad=$(this).attr('idactividad');
 		datos = 'idactividad='+idactividad;
 		$('input#modificar-idactividad').val(idactividad);
@@ -233,9 +242,10 @@ $(document).ready(function(e) {
 	});
 	
 	$('#btn-modificar-actividad').click(function(){
-		idcontrato = $('select#act-contrato').val();
-		idcategoria = $('select#act-categoria-select').val();
-		idsubcategoria = $('select#act-subcategoria-select').val();
+		idcontrato = $('select#mod-contrato').val();
+		idcategoria = $('select#mod-categoria').val();
+		idsubcategoria = $('select#mod-subcategoria').val();
+		//alert(idcontrato+' - '+ idcategoria+' - '+idsubcategoria)
 		errores=0;
 		$('form#form-modificar-actividad input.required, form#form-modificar-actividad textarea.required').each(function(index, element) {
             if($(this).val()==''){
@@ -256,16 +266,25 @@ $(document).ready(function(e) {
 		if(errores>0){
 			alert('Llene los campos correctamente');
 		}else{
-			datos = $('form#form-modificar-actividad').serialize()+'&idcontrato='+idcontrato+'&idcategoria='+idcategoria+'&idsubcategoria='+idsubcategoria;
-			$.getJSON(base_url+'doc/actividad/modificar',datos,function(json){
-				if(json.msg>0){
-					alert('La actividad ha sido modificada');
-					$('#modal-modificar-actividad').modal('hide');
-					loadTable(idcontrato,idcategoria,idsubcategoria);
-				}else{
-					alert('Ocurrio un error, intente nuevamente');
-				}
-			});
+
+			var mensaje = confirm("¿Está de modificar la actividad?");
+			if(mensaje){
+			            
+				datos = $('form#form-modificar-actividad').serialize()+'&idcontrato='+idcontrato+'&idcategoria='+idcategoria+'&idsubcategoria='+idsubcategoria;
+				$.getJSON(base_url+'doc/actividad/modificar',datos,function(json){
+					if(json.msg>0){
+						$('#modal-modificar-actividad').modal('hide');
+						$("#act-contrato").attr('selected','selected').val(idcontrato).change();
+						$("#act-categoria-select").attr('selected','selected').val(idcategoria).change();
+						$("#act-subcategoria-select").attr('selected','selected').val(idsubcategoria);
+						alert('La actividad ha sido modificada');
+
+						loadTable(idcontrato,idcategoria,idsubcategoria);
+					}else{
+						alert('Ocurrio un error, intente nuevamente');
+					}
+				});
+			}
 		}
 			
 	});
@@ -342,9 +361,12 @@ function loadAreas(idactividad)
 
 function loadTable(idcontrato,idcategoria,idsubcategoria)
 {
+	$("#act-categoria-select").attr('selected','selected').val(idcategoria);
+	$("#act-subcategoria-select").attr('selected','selected').val(idsubcategoria);
 	datos = 'idcontrato='+idcontrato+'&idcategoria='+idcategoria+'&idsubcategoria='+idsubcategoria;
 	$.getJSON(base_url+'doc/actividad/desplegar',datos,function(json){
 		$(function () {
+			
             $("#grid").igGrid({
                 width: '100%',
                 columns: [	

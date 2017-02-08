@@ -37,6 +37,8 @@ class Actividad extends MX_Controller
 			$data['js'] .= '<script src="'.base_url('assets/js/doc-act.js').'"></script>';
 			$data['js'] .= '<script src="'.base_url('assets/js/jquery-form.js').'"></script>';
 			$data["contratos"] = $this->programacion_model->desplegar_contratos_activos($data["iduser"]);
+			$data["categorias"] = $this->programacion_model->desplegar_categorias_activas($data["iduser"]);
+			$data["subcategorias"] = $this->programacion_model->desplegar_subcategorias_activas($data["iduser"]);
 			$data["areas"] = $this->area_model->desplegar_areas();
 			$this->template->load('template','actividad',$data);
 		else:
@@ -201,7 +203,7 @@ class Actividad extends MX_Controller
 			foreach($this->input->get('areas') as $area):
 				$areas = $areas.$area.';';
 			endforeach;
-			$result = $this->actividad_model->modificar_actividad($idactividad,$idcategoria,$idsubcategoria,$nombre,$descripcion,$documento,$referencia,$empresa,$persona,$detalle,$observaciones,$areas,$data['usuario']);
+			$result = $this->actividad_model->modificar_actividad($idactividad,$idcontrato,$idcategoria,$idsubcategoria,$nombre,$descripcion,$documento,$referencia,$empresa,$persona,$detalle,$observaciones,$areas,$data['usuario']);
 			echo '{"msg":'.$result[0]["mensaje"].'}';
 		else:
 			redirect('login/index', 'refresh');

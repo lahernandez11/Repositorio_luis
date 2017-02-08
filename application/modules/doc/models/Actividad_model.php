@@ -45,9 +45,9 @@ class Actividad_model extends CI_Model
         return $query->result_array();
 	}
 	
-	public function modificar_actividad($idactividad,$idcategoria,$idsubcategoria,$nombre,$descripcion,$documento,$referencia,$empresa,$persona,$detalle,$observaciones,$areas,$usuario)
+	public function modificar_actividad($idactividad,$idcontrato,$idcategoria,$idsubcategoria,$nombre,$descripcion,$documento,$referencia,$empresa,$persona,$detalle,$observaciones,$areas,$usuario)
 	{
-		$query = $this->db->query("EXEC sp_doc_modificar_actividad $idactividad,$idcategoria,$idsubcategoria,'$nombre','$descripcion','$documento','$referencia','$empresa','$persona','$detalle','$observaciones','$areas','$usuario'");
+		$query = $this->db->query("EXEC sp_doc_modificar_actividad $idactividad,$idcontrato,$idcategoria,$idsubcategoria,'$nombre','$descripcion','$documento','$referencia','$empresa','$persona','$detalle','$observaciones','$areas','$usuario'");
         return $query->result_array();
 	}
 	

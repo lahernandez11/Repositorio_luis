@@ -249,6 +249,48 @@
                 	<span id="label-subcategoria"></span>
               		</div>
                 </div>-->
+
+
+                  
+
+
+                <div class="col-md-12">
+                  <div class="form-group" style="margin-bottom:0px;">
+                  <label for="">Contrato</label>
+                    <select name="mod-contrato" class="form-control" id="mod-contrato">
+                      <option value="0">- SELECCIONE -</option>
+                        <?php foreach ($contratos as $contrato):?>
+                      <option value="<?=$contrato->idcontrato?>"><?=$contrato->clave.'-'.$contrato->numero_contrato?></option>
+                        <?php endforeach;?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group" style="margin-bottom:0px;">
+                  <label for="">Categoria</label>
+                    <select name="mod-categoria" class="form-control" id="mod-categoria">
+                      <option value="0">- SELECCIONE -</option>
+                        <?php foreach ($categorias as $categoria):?>
+                      <option value="<?=$categoria->idcat_categoria?>"><?=$categoria->cat_categoria?></option>
+                        <?php endforeach;?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group" style="margin-bottom:0px;">
+                  <label for="">Subcategoria</label>
+                    <select name="mod-subcategoria" class="form-control" id="mod-subcategoria">
+                      <option value="0">- SELECCIONE -</option>
+                        <?php foreach ($subcategorias as $subcategoria):?>
+                      <option value="<?=$subcategoria->idcat_subcategoria?>"><?=$subcategoria->cat_subcategoria?></option>
+                        <?php endforeach;?>
+                    </select>
+                  </div>
+                </div>
+
+
                 <div class="col-md-12">
                 	<div class="form-group">
                 	<label for="exampleInputEmail1">Nombre de actividad</label>

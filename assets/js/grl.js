@@ -1,6 +1,18 @@
 $(document).ready(function(e) {
 	//base_url='http://172.20.74.92:3029/';
-	base_url='http://opc.grupohi.mx/';
+	var  url=window.location;
+	var url_text = url + "/"; 
+	cadena =url_text.split("/");
+	base_url='';
+	for(i=0;i < cadena.length;i++){
+		base_url=base_url + cadena[i] + '/';
+		posicion  = cadena[i].lastIndexOf('opc');
+		if (posicion >= 0){
+			i = cadena.length;
+		}
+	}
+	//alert(base_url);
+	//base_url='http://opc.grupohi.mx/';
     //base_url='http://localhost/opc/';
 	//Funciones para guardar catalogos generales
 	$("form.validar").on("submit",function() {

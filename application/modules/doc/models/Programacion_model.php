@@ -21,7 +21,19 @@ class Programacion_model extends CI_Model
 where idcat_estado=1 AND idproyecto in (select idproyecto from vw_grl_usuario_plaza WHERE idusuario=".$iduser." group by idproyecto) ORDER BY clave,numero_contrato"); 	
         return $query->result();
 	}
+
+	public function desplegar_subcategorias_activas($iduser)
+	{
+		$query = $this->db->query("select * from doc_cat_subcategoria where idcat_estado=1 order by cat_subcategoria"); 	
+        return $query->result();
+	}
 	
+	public function desplegar_categorias_activas($iduser)
+	{
+		$query = $this->db->query("select * from doc_cat_categoria where idcat_estado=1 order by cat_categoria"); 	
+        return $query->result();
+	}
+
 	public function desplegar_contratos($iduser)
 	{
 		$query = $this->db->query("select * from vw_doc_contrato_proyecto
