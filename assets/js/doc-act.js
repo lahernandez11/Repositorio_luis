@@ -4,7 +4,10 @@ $(document).ready(function(e) {
       pickTime: false
     });
 	
-    $('select#act-contrato').change(function(){
+
+	var categoria = 0;
+	var subcategoria = 0;
+	$('select#act-contrato').off().on('change',function(){
 		idcontrato = $(this).val();
 		if(idcontrato==0){
 			$('div#act-categoria-contenedor').html('');
@@ -19,13 +22,19 @@ $(document).ready(function(e) {
 				});
 				opciones = opciones + '</select>';	
 				$('#act-categoria-contenedor').html(opciones);
+				if (categoria > 0){
+					$("#act-categoria-select").attr('selected','selected').val(categoria).change();
+					categoria = 0;
+				}
 			});
+			
 		}
 		$('div#act-subcategoria-contenedor').html('');
 		$('#act-resultado').hide();
+		
 	});
 	
-	$('#act-categoria-contenedor').on('change','select',function(){
+	$('#act-categoria-contenedor').off().on('change','select',function(){
 		idcategoria = $(this).val();
 		if(idcategoria==0){
 			$('div#act-subcategoria-contenedor').html('');
@@ -41,6 +50,10 @@ $(document).ready(function(e) {
 				});
 				opciones2 = opciones2 + '</select>';	
 				$('#act-subcategoria-contenedor').html(opciones2);
+				if (subcategoria > 0){
+					$("#act-subcategoria-select").attr('selected','selected').val(idsubcategoria).change();
+					subcategoria = 0;
+				}
 			});
 		}
 		$('#act-resultado').hide();
@@ -274,12 +287,13 @@ $(document).ready(function(e) {
 				$.getJSON(base_url+'doc/actividad/modificar',datos,function(json){
 					if(json.msg>0){
 						$('#modal-modificar-actividad').modal('hide');
+						categoria = idcategoria;
+						subcategoria = idsubcategoria;
 						$("#act-contrato").attr('selected','selected').val(idcontrato).change();
-						$("#act-categoria-select").attr('selected','selected').val(idcategoria).change();
-						$("#act-subcategoria-select").attr('selected','selected').val(idsubcategoria);
 						alert('La actividad ha sido modificada');
-
-						loadTable(idcontrato,idcategoria,idsubcategoria);
+						
+						
+						//loadTable(idcontrato,idcategoria,idsubcategoria);
 					}else{
 						alert('Ocurrio un error, intente nuevamente');
 					}
@@ -361,12 +375,9 @@ function loadAreas(idactividad)
 
 function loadTable(idcontrato,idcategoria,idsubcategoria)
 {
-	$("#act-categoria-select").attr('selected','selected').val(idcategoria);
-	$("#act-subcategoria-select").attr('selected','selected').val(idsubcategoria);
 	datos = 'idcontrato='+idcontrato+'&idcategoria='+idcategoria+'&idsubcategoria='+idsubcategoria;
 	$.getJSON(base_url+'doc/actividad/desplegar',datos,function(json){
 		$(function () {
-			
             $("#grid").igGrid({
                 width: '100%',
                 columns: [	
