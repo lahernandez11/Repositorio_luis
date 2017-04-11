@@ -69,7 +69,7 @@ class Programacion extends MX_Controller
 				foreach($correos as $correo):
 					$mail->AddAddress($correo);
 				endforeach;				
-				$mail->AddBCC('khernandezz@grupohi.mx');
+				$mail->AddBCC('lahernandezg@grupohi.mx');
 				$mail->AddBCC('oaguayo@grupohi.mx');
 				$html='
 <html>
@@ -185,7 +185,7 @@ esta direcci&oacute;n de correo, ya que no se encuentra habilitada para recibir 
 				foreach ($correos as $correo):
 					//$mail->AddAddress($correo["correo_usuario"]);
 				endforeach;
-				$mail->AddBCC('khernandezz@grupohi.mx');
+				$mail->AddBCC('lahernandezg@grupohi.mx');
 				$mail->AddBCC('oaguayo@grupohi.mx');
 				$html='
 <html>
@@ -250,7 +250,7 @@ esta direcci&oacute;n de correo, ya que no se encuentra habilitada para recibir 
 				foreach ($correos as $correo):
 					//$mail->AddAddress($correo["correo_usuario"]);
 				endforeach;
-				$mail->AddBCC('khernandezz@grupohi.mx');
+				$mail->AddBCC('lahernandezg@grupohi.mx');
 				$mail->AddBCC('oaguayo@grupohi.mx');
 				$html='
 <html>

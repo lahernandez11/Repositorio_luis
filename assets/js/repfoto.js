@@ -190,9 +190,13 @@ $(document).ready(function(){
 					//$("#enviar").attr('href','http://172.20.73.117/reporte_fotografico/atm_r_foto.php?'+datos)
 					$("#enviar").attr('href','http://ns5002111.ip-192-99-17.net/sgwc_repfot/atm_r_foto.php?'+datos)
 				}
-				else{
+				if(proyecto==2){
 					//$("#enviar").attr('href','http://172.20.73.117/reporte_fotografico/cpcc_r_foto.php?'+datos)
 					$("#enviar").attr('href','http://ns5002111.ip-192-99-17.net/sgwc_repfot/cpcc_r_foto.php?'+datos)
+				}
+				if(proyecto==4){	
+					//$("#enviar").attr('href','http://172.20.73.117/reporte_fotografico/cpcc_r_foto.php?'+datos)
+					$("#enviar").attr('href','http://ns5002111.ip-192-99-17.net/sgwc_repfot/qro_r_foto.php?'+datos)
 				}
 				$("#enviar").html("<i class='fa fa-refresh fa-spin'></i> Procesando...").attr("disabled",true);	
 				return true;								

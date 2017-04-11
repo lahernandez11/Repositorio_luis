@@ -72,12 +72,9 @@ class reporte extends MX_Controller
 	
 	public function carga_estandares()
 	{
-		$proyecto=$this->input->get('proyecto');		
-		$data['fuentes']=$this->reporte_model->desplega_fuentes($proyecto);
-		$data['clases']=$this->reporte_model->desplega_clases($proyecto);
-		$data['segmentos']=$this->reporte_model->desplega_segmentos($proyecto);			
+		$proyecto=$this->input->get('proyecto');				
 		
-		if($proyecto==1):
+		if($proyecto==1 or $proyecto==4):
 			$data['fuentes']=$this->reporte_model->desplega_fuentes($proyecto);
 			$data['clases']=$this->reporte_model->desplega_clases($proyecto);
 			$data['carreteras']=$this->reporte_model->desplega_carreteras($proyecto);
