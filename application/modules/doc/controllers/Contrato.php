@@ -54,7 +54,11 @@ class Contrato extends MX_Controller
 			$estado = $this->input->post('estado');
 			if($_FILES['userfile']['name']!=''):
 				$config['upload_path'] = './documents/doc/';
-				$config['allowed_types'] = 'pdf';
+				//$config['allowed_types'] = 'pdf';
+				$posicion = strpos($_FILES['userfile']['name'],'.') + 1;
+				$extencion = substr($_FILES['userfile']['name'], $posicion);
+				$config['allowed_types'] = $extencion;
+				
 				$this->load->library('upload', $config);
 				if ( ! $this->upload->do_upload()):
 					$error = array('error' => $this->upload->display_errors());
@@ -129,7 +133,12 @@ class Contrato extends MX_Controller
 			$idcontrato = $this->input->post('idcontrato');
 			if($_FILES['userfile']['name']!=''):
 				$config['upload_path'] = './documents/doc/';
-				$config['allowed_types'] = 'pdf';
+				//$config['allowed_types'] = 'pdf';
+
+				$posicion = strpos($_FILES['userfile']['name'],'.') + 1;
+				$extencion = substr($_FILES['userfile']['name'], $posicion);
+				$config['allowed_types'] = $extencion;
+
 				$this->load->library('upload', $config);
 				if ( ! $this->upload->do_upload()):
 					$error = array('error' => $this->upload->display_errors());

@@ -153,7 +153,8 @@ progress::-webkit-progress-value {
             <div class="form-group">
     			<label for="cuerpo" class="col-sm-4 control-label">Formato digital del contrato</label>
     			<div class="col-sm-8">
-      			<input type="file" class="form-control" id="userfile" accept="application/pdf" name="userfile">	
+      			<!--<input type="file" class="form-control" id="userfile" accept="application/pdf" name="userfile">	 -->
+            <input type="file" class="form-control" id="userfile" accept="application" name="userfile"> 
     			</div>
   			</div>
         </fieldset>
