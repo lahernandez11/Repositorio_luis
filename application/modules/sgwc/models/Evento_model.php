@@ -44,6 +44,21 @@ class Evento_model extends CI_Model
 		$query = $this->db->query("SELECT * FROM foto_segmento WHERE idbase=".$proyecto." ORDER BY tramo");
 		return $query->result();
 	}
+
+	public function existe_segmentos($proyecto, $idsector, $sector)
+	{
+		$query = $this->db->query("SELECT * FROM foto_segmento 
+			WHERE idbase=".$proyecto." AND tramoID = ". $idsector." 
+			ORDER BY tramo");
+		return $query->result();
+	}
+
+	public function insert_segmentos($proyecto, $idsector, $sector)
+	{
+		$query = $this->db->query("INSERT INTO foto_segmento  (tramoID,tramo,idbase)
+			VALUES(".$idsector.",'".$sector."',".$proyecto.")");
+		//return $query->result_array();
+	}
 	
 	public function modifica_descripcion($id,$descripcion,$sin_espacio)
 	{

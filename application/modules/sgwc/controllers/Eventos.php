@@ -26,6 +26,7 @@ class Eventos extends MX_Controller
 			redirect('login/index','refresh');
 		endif;
 	}
+
 	
 	public function estandares($pdf)
 	{		
@@ -57,6 +58,17 @@ class Eventos extends MX_Controller
 	{
 		$proyecto=$this->input->get('proyecto');		
 		$data['fuentes']=$this->evento_model->desplega_fuentes($proyecto);		
+		
+		if($proyecto == 3){
+			$json = file_get_contents("http://ns5002111.ip-192-99-17.net/sgwc_repfot/Actualizar_RepFot_Lugares.php");
+			$segmentos = json_decode($json, true);
+			foreach ($segmentos as $segmento) {
+			    $existe = $this->evento_model->existe_segmentos($proyecto, $segmento['tramoID']);
+			    if(!$existe){
+			    	$this->evento_model->insert_segmentos($proyecto, $segmento['tramoID'], $segmento['tramo']);
+			    }
+			}			
+		}
 		$data['segmentos']=$this->evento_model->desplega_segmentos($proyecto);			
 		$this->load->view('carga_estandares_e',$data);	
 	}
