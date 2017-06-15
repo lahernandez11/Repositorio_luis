@@ -95,7 +95,7 @@ class CI_Upload {
 	 *
 	 * @var	int
 	 */
-	public $max_filename_increment = 100;
+	public $max_filename_increment = 200;
 
 	/**
 	 * Allowed file types
