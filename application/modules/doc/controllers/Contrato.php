@@ -32,6 +32,7 @@ class Contrato extends MX_Controller
 			$data['js'] .= '<script src="'.base_url('assets/js/bootstrap-datetimepicker.min.js').'"></script>';
 			$data['js'] .= '<script src="'.base_url('assets/js/bootstrap-datetimepicker-init.js').'"></script>';
 			$data['js'] .= '<script src="'.base_url('assets/js/doc.js').'"></script>';
+			$data['js'] .= '<script src="'.base_url('assets/js/jquery-form.js').'"></script>';
 			$data["proyectos"] = $this->general_model->desplega_lista_proyectos();
 			$this->template->load('template','contrato',$data);
 		else:
@@ -131,6 +132,7 @@ class Contrato extends MX_Controller
 			$ffin = $this->input->post('fecha_fin');
 			$estado = $this->input->post('estado');
 			$idcontrato = $this->input->post('idcontrato');
+			/*
 			if($_FILES['userfile']['name']!=''):
 				$config['upload_path'] = './documents/doc/';
 				//$config['allowed_types'] = 'pdf';
@@ -154,21 +156,93 @@ class Contrato extends MX_Controller
 					endif;
 				endif;
 			else:
+			*/
 				$result = $this->contrato_model->editar_contrato($idcontrato,$idproyecto,$numero,$descripcion,$finicio,$ffin,$estado,'',$data['usuario']);
 				if($result[0]["mensaje"]>0):
 					echo '<script>alert("El contrato '.strtoupper($numero).' ha sido modificado");$("div#modal-alta-contrato").modal("hide");clearFields();loadTable();</script>';
 				else:
 					echo '<script>alert("Ocurrio un error, intente nuevamente");$("progress").attr({value:0,max:0});</script>';
-				endif;
+			//	endif;
 			endif;
 		else:
 			redirect('login/index', 'refresh');
 		endif;
 	}
 	
+	public function desplegar_evidencias(){
+            $idcontrato = $this->input->get('idcontrato');
+            $evidencias = $this->contrato_model->desplegar_evidencias($idcontrato);
+            $datasource = array();
+            foreach ($evidencias as $resultado):
+                    //$datasource[]=array_map('utf8_encode', $resultado);
+                    $datasource[]=($resultado);
+            endforeach;
+            echo json_encode($datasource);
+    }
+
+	public function agregar_evidencia_documental(){
+            if($this->session->userdata('id')):
+            $session_data = $this->session->userdata();
+            $data['usuario'] = $session_data['username'];
+                    $data['iduser'] = $session_data['id'];
+                    $idcontrato = $this->input->post('idcontrato');
+                   // $idestado = $this->input->post('idestado');
+                    $output_dir = "./documents/doc/";
+                    if(isset($_FILES["myfile"])):
+                            $typeAccepted = array(
+                            "application/pdf",
+                            "application/excel",
+                            "application/msexcel",
+                            "application/vnd.ms-excel",
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "application/powerpoint",
+                            "application/vnd.ms-powerpoint",
+                            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                            "application/msword",
+                            "text/plain",
+                            "image/jpeg",
+                            "image/pjpeg",
+                            "application/x-compressed",
+                            "application/x-zip-compressed",
+                            "application/zip",
+                            "application/octet-stream",
+                            "multipart/x-zip",
+                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document");				
+                            if(in_array($_FILES["myfile"]["type"],$typeAccepted)): 
+                                    $file = date('Ymd_His').utf8_decode($_FILES["myfile"]["name"]);
+                                    move_uploaded_file($_FILES["myfile"]["tmp_name"],$output_dir.$file);
+                                    echo "La evidencia documental ha sido registrada";
+                                    //$file = utf8_decode($file);
+                                    $result = $this->contrato_model->agregar_documentos($idcontrato,utf8_encode($file),$data['usuario']);
+
+                            else:
+                                    echo "Ha ocurrido un error, el soporte debe ser PDF, WORD, EXCEL, POWER POINT, ZIP, JPG, TXT";
+                            endif;
+                    else:
+                            echo "Ha ocurrido un error, seleccione un archivo";
+                    endif;
+            else:
+                    redirect('login/index', 'refresh');
+            endif;
+    }
+
+    public function eliminar_documentos(){
+            if($this->session->userdata('id')):
+            $session_data = $this->session->userdata();
+            $data['usuario'] = $session_data['username'];
+                    $data['iduser'] = $session_data['id'];
+                    $iddocumento = $this->input->get('iddocumento');
+                    $result = $this->contrato_model->eliminar_documentos_contrato($iddocumento);
+                    echo '{"msg":'.$result[0]["mensaje"].'}';
+            else:
+                    redirect('login/index', 'refresh');
+            endif;
+    }
 	
 	
 }
+
+
 /*
 *end modules/login/controllers/index.php
 */

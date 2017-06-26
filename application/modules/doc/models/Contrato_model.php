@@ -47,5 +47,25 @@ class Contrato_model extends CI_Model
 		$query = $this->db->query("EXEC sp_doc_cambia_estado_contrato $idcontrato,$estado");
         return $query->result_array();
 	}
+
+	public function desplegar_evidencias($idcontrato)
+	{
+		$this->db->select("*");
+		$this->db->from("doc_contrato_documentos");
+		$this->db->where("idcontrato",$idcontrato);
+		$query = $this->db->get(); 	
+        return $query->result_array();
+	}
 	
+	public function agregar_documentos($idcontrato, $file, $usuario)
+	{
+		$query = $this->db->query("EXEC sp_doc_agregar_documentos_contrato $idcontrato,'$file','$usuario'");
+        return $query->result_array();
+	}
+
+	public function eliminar_documentos_contrato($iddocumento)
+	{
+		$query = $this->db->query("EXEC sp_doc_eliminar_documentos_contrato $iddocumento");
+        return $query->result_array();
+	}
 }

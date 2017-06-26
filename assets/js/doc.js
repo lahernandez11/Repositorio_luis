@@ -1,6 +1,8 @@
 $(document).ready(function(e) {
 	//Iniciar grid
 	loadTable();
+
+	
     
 	//Iniciar calendario
     $('.datepicker').datetimepicker({
@@ -40,6 +42,7 @@ $(document).ready(function(e) {
 		$('#btn-agregar-contrato').show();
 		$('#btn-editar-contrato').hide();
 		$('div#modal-alta-contrato').modal();
+		$('.sec_documentos').hide();
 		clearFields();
 	});
 	
@@ -110,14 +113,17 @@ $(document).ready(function(e) {
 		$('#btn-agregar-contrato').hide();
 		$('#btn-editar-contrato').show();
 		$('div#modal-alta-contrato').modal();
+		$('.sec_documentos').show();
 		$.getJSON(base_url+'doc/contrato/buscar',datos,function(json){
+			loadEvidencias(idcontrato);	
+			$('form.form-evidencia-documental input#idcontrato').val(idcontrato);
 			$('select#proyecto').val(json[0].idproyecto);
 			$('input#numero').val(json[0].numero_contrato);
 			$('textarea#descripcion').val(json[0].descripcion_contrato);
 			$('input#fecha_inicio').val(json[0].fecha_inicio);
 			$('input#fecha_fin').val(json[0].fecha_fin);
 			$('select#estado').val(json[0].idcat_estado);
-			$('div#documento-previo').html('Documento existente: <a href="'+base_url+'documents/doc/'+json[0].doc_contrato+'" target="_blank">'+json[0].doc_contrato+'</a>')
+			//$('div#documento-previo').html('Documento existente: <a href="'+base_url+'documents/doc/'+json[0].doc_contrato+'" target="_blank">'+json[0].doc_contrato+'</a>')
 		});
 	});
 	
@@ -178,6 +184,9 @@ $(document).ready(function(e) {
 		}
 		
     });
+
+
+
 	
 	//Cambiar estado categoria
 	$('#grid').on('click','a.cancelar',function(){
@@ -196,6 +205,56 @@ $(document).ready(function(e) {
 			});
 		}
 	});
+
+
+	var options = { 
+    	beforeSend: function(){
+        	$("#progress").hide();
+        	//clear everything
+        	$("#bar").width('0%');
+        	$("#message").html("");
+        	$("#percent").html("0%");
+    	},
+    	uploadProgress: function(event, position, total, percentComplete){
+        	$("#bar").width(percentComplete+'%');
+        	$("#percent").html(percentComplete+'%');
+ 		},
+    	success: function(){
+        	$("#bar").width('100%');
+        	$("#percent").html('100%');
+    	},
+		complete: function(response){
+			//$("#message").html("<font color='green'>"+response.responseText+"</font>");
+			//$('#btn-copia').val('Guardar').hide();
+			$('#guardar_evidencia').val('Guardar').show();	
+			alert(response.responseText);
+			idcontrato = $('input#idcontrato').val();
+			loadEvidencias(idcontrato);
+			$fileupload=$(".form-evidencia-documental #exampleInputFile");
+			$fileupload.replaceWith($fileupload.clone(true)); 
+		},
+		error: function(){
+			//$("#message").html("<font color='red'> ERROR: Intente nuevamente</font>");
+			alert('Ocurrio un error, intente nuevamente');
+		}
+	};
+	
+	$(".form-evidencia-documental").ajaxForm(options);
+
+	$('div#detalle-evidencia-documental').on('click','a.eliminar-documento',function(){
+		iddocumento = $(this).attr('id');
+		idcontrato = $('input#idcontrato').val();
+		datos = 'iddocumento='+iddocumento;
+		$.getJSON(base_url+'doc/contrato/eliminar_documentos',datos,function(json){
+			if(json.msg>0){
+				alert('El documento ha sido Eliminado!!!');
+				loadEvidencias(idcontrato);
+			}else{
+				alert('Ha ocurrido un error, intente nuevamente');
+			}
+		});
+	});
+
 });
 
 function loadTable()
@@ -281,5 +340,33 @@ function clearFields()
 	$("progress").attr({value:0,max:0});
 	$("input#fecha_inicio, input#fecha_fin").val(fecha);
 	$('input#idcontrato').val('');
-	$('div#documento-previo').html('');
+	//$('div#documento-previo').html('');
+}
+
+
+function loadEvidencias(idcontrato)
+{
+	//alert(idcontrato);
+	datos = 'idcontrato='+idcontrato;
+	$.getJSON(base_url+'doc/contrato/desplegar_evidencias',datos,function(json){
+		//console.log(json);
+		table='<style>td.td_eliminar{cursor:pointer;}</style><table class="table table-striped table-condensed table-bordered"><tr><td>#</td><td>Evidencia documental</td><td>Acci&oacute;n</td></tr>';
+			i=0;
+			$.each(json,function(x,y){
+				i++;
+				table = table+'<tr><td>'+i+'</td><td><a target="_blank" href="'+base_url+'documents/doc/'+y.doc_contrato+'">'+y.doc_contrato;
+				table = table+'</a></td><td class="td_eliminar" align="center">'+'<a  id='+ y.id_documento +' class="eliminar-documento" ><i class="fa fa-trash-o fa-lg red"></i></a>'
+				table = table+'</td></tr>';	
+			});
+		table = table + '</table>';
+		if(i>0){
+			$('div#detalle-evidencia-documental').html(table);
+		}else{
+			$('div#detalle-evidencia-documental').html('No existen documentos agregados');
+		}
+	}).done(function(){
+		$('div#modal-evidencia-documental').modal();
+		$fileupload=$(".form-evidencia-documental #exampleInputFile");
+		$fileupload.replaceWith($fileupload.clone(true));	
+	});
 }

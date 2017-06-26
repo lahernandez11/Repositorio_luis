@@ -77,7 +77,7 @@ progress::-webkit-progress-value {
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
-      <form class="form-horizontal" role="form" id="form-agregar-contrato">
+      <form class="form-horizontal form-evidencia-documental" role="form" id="form-agregar-contrato"  action="<?=base_url('doc/contrato/agregar_evidencia_documental')?>" method="post" enctype="multipart/form-data">
       <div class="modal-body">
       	<fieldset class="well the-fieldset">
       	<legend class="the-legend">Datos Generales</legend>
@@ -145,27 +145,62 @@ progress::-webkit-progress-value {
     			<div class="col-sm-8">
       				<select class="form-control required input-sm" id="estado" name="estado">
                     	<option value="0">- SELECCIONE ESTADO DE CONTRATO -</option>
-                        <option value="1">ACTIVO</option>
-                        <option value="2">INACTIVO</option>
-                    </select>
+                      <option value="1">ACTIVO</option>
+                      <option value="2">INACTIVO</option>
+              </select>
     			</div>
   			</div>
+        <!--
             <div class="form-group">
     			<label for="cuerpo" class="col-sm-4 control-label">Formato digital del contrato</label>
     			<div class="col-sm-8">
-      			<!--<input type="file" class="form-control" id="userfile" accept="application/pdf" name="userfile">	 -->
             <input type="file" class="form-control" id="userfile" accept="application" name="userfile"> 
     			</div>
   			</div>
+        -->
         </fieldset>
+        <!--
         Procesando archivo:
         <progress value="0" max="100" style="width:100%;"></progress>
+        -->
 		<div id="content_here_please"></div>
+        <input type="hidden" name="idcontrato" id="idcontrato" value="">
+      
+
+      <fieldset class="well the-fieldset sec_documentos">
+        <legend class="the-legend">Documentos</legend>
+        <div class="form-group">
+
         
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label for="exampleInputFile">Documentos</label>
+                  <input type="file" name="myfile" id="exampleInputFile">
+                </div>
+            </div>
+            <div class="col-md-3">
+              <input type="submit" value="Guardar" class="btn btn-success" id="guardar_evidencia">
+              <input type="hidden" id="idcontrato" name="idcontrato" value="">
+            </div>
+            </form>
+            <br>
+            <br>
+            <div class="col-md-12" id="detalle-evidencia-documental"></div>
+
+        </div>
+      </fieldset>
+
+
+
       </div>
-      <input type="hidden" name="idcontrato" id="idcontrato" value="">
-      <div id="documento-previo" style="padding:0px 20px;"></div>
-      </form>
+      
+
+      
+
+
+
+
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-success" id="btn-agregar-contrato" style="display:none;">Agregar</button>
